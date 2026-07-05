@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence">
+  <meta name="description" content="EG-VQA benchmarks verifiable video question answering with grounded temporal evidence for trustworthy video understanding.">
+  <meta name="keywords" content="EG-VQA, video question answering, temporal grounding, temporal evidence, video understanding, multimodal AI, benchmark">
+  <meta name="author" content="Linpeng Huang, Weixing Chen, Zexin Chen, Yang Liu, Liang Lin">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Sun Yat-sen University">
+  <meta property="og:title" content="EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence">
+  <meta property="og:description" content="EG-VQA benchmarks verifiable video question answering with grounded temporal evidence for trustworthy video understanding.">
+  <meta property="og:url" content="https://hcplab-sysu.github.io/EG-VQA/">
+  <meta property="og:image" content="https://hcplab-sysu.github.io/EG-VQA/static/images/teaser.png">
+  <meta property="og:image:alt" content="EG-VQA project preview">
+  <meta property="article:published_time" content="2026-06-23T00:00:00.000Z">
+  <meta property="article:author" content="Linpeng Huang">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="video question answering">
+  <meta property="article:tag" content="temporal grounding">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence">
+  <meta name="twitter:description" content="EG-VQA benchmarks verifiable video question answering with grounded temporal evidence for trustworthy video understanding.">
+  <meta name="twitter:image" content="https://hcplab-sysu.github.io/EG-VQA/static/images/teaser.png">
+  <meta name="twitter:image:alt" content="EG-VQA project preview">
+
+  <meta name="citation_title" content="EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence">
+  <meta name="citation_author" content="Huang, Linpeng">
+  <meta name="citation_author" content="Chen, Weixing">
+  <meta name="citation_author" content="Chen, Zexin">
+  <meta name="citation_author" content="Liu, Yang">
+  <meta name="citation_author" content="Lin, Liang">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_arxiv_id" content="2606.24797">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2606.24797">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    :root {
+      --eg-ink: #1f2937;
+      --eg-muted: #5f6b7a;
+      --eg-blue: #2563eb;
+      --eg-blue-dark: #1e3a8a;
+      --eg-bg: #f7f9fc;
+      --eg-line: #d9e2ec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--eg-ink);
+      background: #ffffff;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--eg-blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(100% - 40px, 1120px);
+      margin: 0 auto;
+    }
+
+    .is-max-desktop {
+      max-width: 1080px;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .hero-body {
+      padding: 48px 0 28px;
+    }
+
+    .publication-title {
+      max-width: 1160px;
+      margin: 0 auto 28px;
+      color: var(--eg-ink);
+      font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: clamp(36px, 4.4vw, 54px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .publication-authors {
+      margin: 6px 0;
+      color: #0f172a;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .author-meta {
+      margin: 10px 0 0;
+    }
+
+    .author-meta .publication-authors {
+      margin: 3px 0;
+    }
+
+    .author-block {
+      display: inline-block;
+      margin: 0 8px;
+    }
+
+    .star-mark {
+      position: relative;
+      top: -0.18em;
+      line-height: 0;
+    }
+
+    .eql-cntrb {
+      display: block;
+      margin: 3px 0;
+      color: #7b8794;
+      font-size: 17px;
+      font-style: normal;
+      line-height: 1.35;
+    }
+
+    .publication-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .link-block {
+      display: inline-flex;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 999px;
+      background: #303030;
+      color: #ffffff;
+      box-shadow: none;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      background: #1f1f1f;
+      color: #ffffff;
+      text-decoration: none;
+      transform: translateY(-1px);
+      box-shadow: none;
+    }
+
+    .button.is-light {
+      background: #eef2f7;
+      color: #334155;
+      box-shadow: inset 0 0 0 1px var(--eg-line);
+    }
+
+    .button.is-light:hover {
+      background: #e2e8f0;
+      color: #1f2937;
+    }
+
+    .button .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+
+    .teaser .hero-body {
+      padding-top: 12px;
+    }
+
+    .teaser img {
+      display: block;
+      margin: 0 auto 22px;
+      border-radius: 6px;
+    }
+
+    .subtitle {
+      max-width: 920px;
+      margin: 0 auto;
+      color: var(--eg-muted);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .figure-caption {
+      max-width: 1080px;
+      margin: 10px auto 0;
+      color: #374151;
+      font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.5;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .section {
+      padding: 56px 0;
+    }
+
+    .is-light {
+      background: var(--eg-bg);
+      border-top: 1px solid var(--eg-line);
+      border-bottom: 1px solid var(--eg-line);
+    }
+
+    .title {
+      margin: 0 0 22px;
+      color: var(--eg-ink);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .title.is-3,
+    h2.title {
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .columns {
+      display: flex;
+      justify-content: center;
+    }
+
+    .column {
+      width: 100%;
+    }
+
+    .is-four-fifths {
+      max-width: 900px;
+    }
+
+    .has-text-centered {
+      text-align: center;
+    }
+
+    .has-text-justified {
+      text-align: justify;
+    }
+
+    .content {
+      color: #111827;
+      font-size: 18px;
+    }
+
+    .content p {
+      margin: 0 0 18px;
+    }
+
+    .content ul {
+      max-width: 860px;
+      margin: 20px auto 0;
+      padding-left: 26px;
+      text-align: left;
+    }
+
+    .content li {
+      margin: 10px 0;
+    }
+
+    .benchmark-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 18px;
+    }
+
+    .benchmark-table {
+      width: 100%;
+      min-width: 940px;
+      border-collapse: collapse;
+      font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #1f2937;
+    }
+
+    .benchmark-table caption {
+      caption-side: top;
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      text-align: center;
+    }
+
+    .benchmark-table th,
+    .benchmark-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #d8e0ea;
+      text-align: center;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .benchmark-table th:first-child,
+    .benchmark-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .benchmark-table thead th {
+      border-top: 2px solid #1f2937;
+      border-bottom: 1.5px solid #1f2937;
+      font-weight: 800;
+    }
+
+    .benchmark-table tbody tr:last-child td {
+      border-bottom: 2px solid #1f2937;
+    }
+
+    .benchmark-table .ours {
+      background: #eef2f7;
+      font-weight: 700;
+    }
+
+    .benchmark-note {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .benchmark-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    h2.title.benchmark-title {
+      text-align: left;
+    }
+
+    .benchmark-figure + .benchmark-figure {
+      margin-top: 26px;
+    }
+
+    iframe {
+      display: block;
+      max-width: 100%;
+      border: 1px solid var(--eg-line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .bibtex-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .bibtex-header .title {
+      margin: 0;
+      text-align: left;
+    }
+
+    .copy-bibtex-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--eg-line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--eg-ink);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    pre {
+      overflow-x: auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 26px;
+      border-radius: 0;
+      background: #f5f5f5;
+      color: #111827;
+      text-align: left;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--eg-line);
+      color: var(--eg-muted);
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .scroll-to-top {
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        font-size: 13px;
+      }
+
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .hero-body {
+        padding: 38px 0;
+      }
+
+      .publication-title {
+        font-size: 32px;
+      }
+
+      .publication-authors {
+        font-size: 18px;
+      }
+
+      .button {
+        min-height: 40px;
+        padding: 0 16px;
+        font-size: 15px;
+      }
+
+      .section {
+        padding: 44px 0;
+      }
+
+      .subtitle {
+        font-size: 19px;
+      }
+
+      .figure-caption {
+        font-size: 15px;
+      }
+
+      .title.is-3,
+      h2.title {
+        font-size: 28px;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence",
+    "description": "EG-VQA benchmarks verifiable video question answering with grounded temporal evidence for trustworthy video understanding.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Linpeng Huang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sun Yat-sen University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Weixing Chen",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sun Yat-sen University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Zexin Chen",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shenzhen University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Yang Liu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sun Yat-sen University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Liang Lin",
+        "affiliation": [
+          {
+            "@type": "Organization",
+            "name": "Sun Yat-sen University"
+          },
+          {
+            "@type": "Organization",
+            "name": "Peng Cheng Laboratory"
+          }
+        ]
+      }
+    ],
+    "datePublished": "2026-06-23",
+    "url": "https://hcplab-sysu.github.io/EG-VQA/",
+    "image": "https://hcplab-sysu.github.io/EG-VQA/static/images/teaser.png",
+    "keywords": ["EG-VQA", "video question answering", "temporal grounding", "video understanding", "multimodal AI"],
+    "isAccessibleForFree": true,
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://hcplab-sysu.github.io/EG-VQA/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence</h1>
+
+              <div class="author-meta">
+                <div class="is-size-5 publication-authors">
+                  <span class="author-block">Linpeng Huang<sup>1<span class="star-mark">*</span></sup></span>
+                  <span class="author-block">Weixing Chen<sup>1<span class="star-mark">*</span></sup></span>
+                  <span class="author-block">Zexin Chen<sup>3</sup></span>
+                  <span class="author-block">Yang Liu<sup>1†</sup></span>
+                  <span class="author-block">Liang Lin<sup>1,2</sup></span>
+                </div>
+                <div class="is-size-5 publication-authors">
+                  <span class="author-block"><sup>1</sup>Sun Yat-sen University</span>
+                  <span class="author-block"><sup>2</sup>Peng Cheng Laboratory</span>
+                  <span class="author-block"><sup>3</sup>Shenzhen University</span>
+                </div>
+                <span class="eql-cntrb"><small><sup>*</sup>Equal Contribution&nbsp;&nbsp;<sup>†</sup>Corresponding Author</small></span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a href="https://arxiv.org/pdf/2606.24797" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+
+                  <span class="link-block">
+                    <a href="https://github.com/HCPLab-SYSU/EG-VQA" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Github</span>
+                    </a>
+                  </span>
+
+                  <span class="link-block">
+                    <a href="https://arxiv.org/abs/2606.24797" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <img src="static/images/teaser.png" alt="EG-VQA overview" style="width: 100%; max-height: 560px; object-fit: contain;" onerror="this.style.display='none'; document.getElementById('teaser-placeholder').style.display='block';">
+          <h2 id="teaser-placeholder" class="subtitle has-text-centered" style="display: none;">
+            Upload your main overview figure as <strong>static/images/teaser.png</strong>.
+          </h2>
+          <p class="figure-caption">
+            <strong>Overview of the proposed evidence-grounded VideoQA paradigm.</strong>
+            (a) Existing VideoQA focuses on answer-only prediction, which can lead to correct answers without grounding in relevant video evidence. (b) Our formulation requires models to generate temporally localized evidence alongside answers, enabling verifiable and interpretable reasoning.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Recent advances in Video Large Language Models (Video-LLMs) have yielded promising performance on video question answering (VideoQA). Nevertheless, existing benchmarks are predominantly evaluated through answer correctness, while the grounding of predictions in relevant video evidence remains largely unexamined. This disconnect between answer generation and evidence understanding motivates the construction of the Evidence-Grounded Video Question Answering Benchmark (EG-VQA), an open-ended evaluation protocol in which each QA pair is explicitly annotated with supporting temporal evidence, thereby requiring joint reasoning and precise evidence localization. EG-VQA is comprised of 2,067 videos and 11,838 QA pairs with fine-grained evidence annotations. To evaluate predicted evidence, Evidence-Grounded F1 (EG-F1) is introduced as a unified metric in which temporal alignment and semantic consistency against ground-truth evidence are jointly measured. Experimental evaluation reveals that even strong proprietary models struggle to accurately ground their predictions, exposing a fundamental discrepancy between answer correctness and faithful evidence localization. To bridge this gap, EG-Reasoner, an evidence-grounded reasoning model trained with explicit supervision, is proposed. State-of-the-art performance is achieved among open-source models, with results competitive against proprietary systems, particularly pronounced gains are observed on reasoning-intensive tasks such as counterfactual questions. These findings demonstrate that scaling alone is insufficient for robust video understanding and that structured evidence supervision is essential for the development of more reliable and interpretable VideoQA systems.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 benchmark-title">Benchmark Overview</h2>
+        <div class="benchmark-figure">
+          <img src="static/images/comparation.png" alt="Comparison between our EG-VQA and existing VideoQA benchmarks">
+          <p class="figure-caption">
+            <strong>Comparison between our EG-VQA and existing VideoQA benchmarks.</strong>
+          </p>
+        </div>
+        <div class="benchmark-figure">
+          <img src="static/images/dataset.png" alt="Overview of EG-VQA statistics and representative QA examples">
+          <p class="figure-caption">
+            <strong>Overview of EG-VQA statistics and representative QA examples.</strong>
+            EG-VQA contains 2,067 videos and 11,838 QA pairs, split in a video-disjoint manner into 8,949 training and 2,889 test samples. It covers four reasoning categories: descriptive, temporal, causal, and counterfactual questions, progressing from directly observable video content to event ordering, causal inference, and hypothetical reasoning grounded in specific video segments.
+          </p>
+        </div>
+        <div class="benchmark-figure">
+          <img src="static/images/Dataset%20pipeline.jpg" alt="The construction process of EG-VQA">
+          <p class="figure-caption">
+            <strong>Construction Pipeline.</strong>
+            EG-VQA is constructed through a pipeline that combines video data curation, reasoning-oriented question-answer generation, prompt refinement, and two-stage quality control. Each QA pair is paired with temporally localized evidence.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 benchmark-title">Model</h2>
+        <div class="benchmark-figure">
+          <img src="static/images/model.jpg" alt="Overview of the EG-Reasoner training framework">
+          <p class="figure-caption">
+            <strong>EG-Reasoner Training Framework.</strong>
+            Given a video and question, EG-Reasoner learns to produce structured responses that explicitly organize temporal evidence, reasoning, and the final answer. The model is optimized with reinforcement learning using a composite reward that jointly evaluates response format, answer correctness, and evidence grounding. During training, GRPO updates the policy by comparing multiple sampled responses, encouraging the model to generate faithful answers supported by localized video evidence.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 benchmark-title">Experiments</h2>
+        <div class="benchmark-figure">
+          <img src="static/images/experiment.png" alt="Experimental comparison of EG-Reasoner with commercial and open-source Video-LLMs">
+          <p class="figure-caption">
+            We compare the performance of EG-Reasoner with commercial large multimodal models and recent open-source Video-LLMs on EG-VQA. EG-Reasoner outperforms other open-source models in terms of both answer accuracy and evidence grounding.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 benchmark-title">Qualitative Analysis</h2>
+        <div class="benchmark-figure">
+          <img src="static/images/case.jpg" alt="Qualitative comparison between EG-Reasoner and the base model">
+          <p class="figure-caption">
+            As videos are analyzed, EG-Reasoner localizes key evidence regions and decomposes complex events into fine-grained temporal reasoning steps. Compared with the base model, it produces answers that are better grounded in the video content and less affected by loosely related context or hallucinated intermediate steps.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@misc{huang2026egvqa,
+  title={EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence},
+  author={Huang, Linpeng and Chen, Weixing and Chen, Zexin and Liu, Yang and Lin, Liang},
+  year={2026},
+  eprint={2606.24797},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2606.24797}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>, adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function copyBibTeX() {
+      const code = document.getElementById("bibtex-code").innerText;
+      navigator.clipboard.writeText(code);
+    }
+  </script>
+</body>
+</html>
