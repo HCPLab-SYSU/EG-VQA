@@ -4,7 +4,7 @@ This repository contains the training and evaluation code for EG-VQA and EG-Reas
 
 Paper: [EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence](https://arxiv.org/abs/2606.24797)
 
-Dataset: [EG-VQA Dataset (Hugging Face)](https://huggingface.co/datasets/lphuang33/EG-VQA)
+Dataset: [EG-VQA Dataset](https://huggingface.co/datasets/lphuang33/EG-VQA)
 
 ## Overview
 
