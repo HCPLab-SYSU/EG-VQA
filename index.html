@@ -121,7 +121,7 @@
       margin: 0 auto 28px;
       color: var(--eg-ink);
       font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: clamp(36px, 4.4vw, 54px);
+      font-size: 43px;
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: 0;
@@ -524,7 +524,7 @@
         "name": "Zexin Chen",
         "affiliation": {
           "@type": "Organization",
-          "name": "Shenzhen University"
+          "name": "Sun Yat-sen University"
         }
       },
       {
@@ -573,20 +573,21 @@
         <div class="container is-max-desktop">
           <div class="columns is-centered">
             <div class="column has-text-centered">
-              <h1 class="title is-1 publication-title">EG-VQA: Benchmarking Verifiable Video Question Answering with Grounded Temporal Evidence</h1>
+              <h1 class="title is-1 publication-title">EG-VQA: Benchmarking Verifiable Video Question<br>
+                                                       Answering with Grounded Temporal Evidence</h1>
 
               <div class="author-meta">
                 <div class="is-size-5 publication-authors">
                   <span class="author-block">Linpeng Huang<sup>1<span class="star-mark">*</span></sup></span>
                   <span class="author-block">Weixing Chen<sup>1<span class="star-mark">*</span></sup></span>
-                  <span class="author-block">Zexin Chen<sup>3</sup></span>
-                  <span class="author-block">Yang Liu<sup>1†</sup></span>
-                  <span class="author-block">Liang Lin<sup>1,2</sup></span>
+                  <span class="author-block">Zexin Chen<sup>1</sup></span>
+                  <span class="author-block">Yang Liu<sup>1,3†</sup></span>
+                  <span class="author-block">Liang Lin<sup>1,2,3</sup></span>
                 </div>
                 <div class="is-size-5 publication-authors">
                   <span class="author-block"><sup>1</sup>Sun Yat-sen University</span>
                   <span class="author-block"><sup>2</sup>Peng Cheng Laboratory</span>
-                  <span class="author-block"><sup>3</sup>Shenzhen University</span>
+	  <span class="author-block"><sup>3</sup>X-Era AI Lab</span>
                 </div>
                 <span class="eql-cntrb"><small><sup>*</sup>Equal Contribution&nbsp;&nbsp;<sup>†</sup>Corresponding Author</small></span>
               </div>
@@ -635,8 +636,8 @@
             Upload your main overview figure as <strong>static/images/teaser.png</strong>.
           </h2>
           <p class="figure-caption">
-            <strong>Overview of the proposed evidence-grounded VideoQA paradigm.</strong>
-            (a) Existing VideoQA focuses on answer-only prediction, which can lead to correct answers without grounding in relevant video evidence. (b) Our formulation requires models to generate temporally localized evidence alongside answers, enabling verifiable and interpretable reasoning.
+            <strong>Overview of evidence-grounded VideoQA evaluation in EG-VQA.</strong>
+            (a) Conventional VideoQA evaluation primarily focuses on answer prediction, without explicitly verifying whether the prediction is supported by relevant video evidence. (b) EG-VQA requires models to generate answers together with temporally localized textual evidence, enabling joint evaluation of answer correctness and evidence faithfulness.
           </p>
         </div>
       </div>
@@ -649,7 +650,7 @@
             <h2 class="title is-3">Abstract</h2>
             <div class="content has-text-justified">
               <p>
-                Recent advances in Video Large Language Models (Video-LLMs) have yielded promising performance on video question answering (VideoQA). Nevertheless, existing benchmarks are predominantly evaluated through answer correctness, while the grounding of predictions in relevant video evidence remains largely unexamined. This disconnect between answer generation and evidence understanding motivates the construction of the Evidence-Grounded Video Question Answering Benchmark (EG-VQA), an open-ended evaluation protocol in which each QA pair is explicitly annotated with supporting temporal evidence, thereby requiring joint reasoning and precise evidence localization. EG-VQA is comprised of 2,067 videos and 11,838 QA pairs with fine-grained evidence annotations. To evaluate predicted evidence, Evidence-Grounded F1 (EG-F1) is introduced as a unified metric in which temporal alignment and semantic consistency against ground-truth evidence are jointly measured. Experimental evaluation reveals that even strong proprietary models struggle to accurately ground their predictions, exposing a fundamental discrepancy between answer correctness and faithful evidence localization. To bridge this gap, EG-Reasoner, an evidence-grounded reasoning model trained with explicit supervision, is proposed. State-of-the-art performance is achieved among open-source models, with results competitive against proprietary systems, particularly pronounced gains are observed on reasoning-intensive tasks such as counterfactual questions. These findings demonstrate that scaling alone is insufficient for robust video understanding and that structured evidence supervision is essential for the development of more reliable and interpretable VideoQA systems.
+                Recent advances in Video Large Language Models (Video-LLMs) have yielded promising performance on Video Question Answering (VideoQA). Nevertheless, existing benchmarks are predominantly evaluated through answer correctness, while the faithfulness of predicted evidence supporting those answers remains insufficiently evaluated. This disconnect between answer generation and evidence verification motivates the construction of the <strong>Evidence-Grounded Video Question Answering Benchmark (EG-VQA)</strong>, a large-scale open-ended benchmark in which each QA pair is annotated with temporally localized textual evidence, requiring models to jointly produce answers and verifiable evidence. EG-VQA comprises 2,067 videos and 11,838 QA pairs with fine-grained evidence annotations. To evaluate predicted evidence, <strong>Evidence-Grounded F1 (EG-F1)</strong> is introduced as a metric that jointly measures temporal alignment and semantic consistency between predicted and ground-truth evidence. Experiments reveal a substantial discrepancy between answer correctness and evidence faithfulness: even strong proprietary models can achieve high answer accuracy while exhibiting gaps in temporal-semantic grounding. To investigate evidence-aware learning under EG-VQA, we develop <strong>EG-Reasoner</strong>, an evidence-aware model trained with explicit evidence supervision. EG-Reasoner achieves strong evidence grounding performance among open-source models while maintaining competitive answer generation results compared with proprietary systems. These findings highlight the importance of explicitly modeling evidence grounding and suggest that evidence-aware supervision provides an effective direction toward more reliable and interpretable VideoQA systems.
               </p>
             </div>
           </div>
@@ -674,7 +675,7 @@
           </p>
         </div>
         <div class="benchmark-figure">
-          <img src="static/images/Dataset%20pipeline.jpg" alt="The construction process of EG-VQA">
+          <img src="static/images/Dataset%20pipeline.png" alt="The construction process of EG-VQA">
           <p class="figure-caption">
             <strong>Construction Pipeline.</strong>
             EG-VQA is constructed through a pipeline that combines video data curation, reasoning-oriented question-answer generation, prompt refinement, and two-stage quality control. Each QA pair is paired with temporally localized evidence.
@@ -687,10 +688,10 @@
       <div class="container is-max-desktop">
         <h2 class="title is-3 benchmark-title">Model</h2>
         <div class="benchmark-figure">
-          <img src="static/images/model.jpg" alt="Overview of the EG-Reasoner training framework">
+          <img src="static/images/model.png" alt="Overview of the EG-Reasoner training framework">
           <p class="figure-caption">
             <strong>EG-Reasoner Training Framework.</strong>
-            Given a video and question, EG-Reasoner learns to produce structured responses that explicitly organize temporal evidence, reasoning, and the final answer. The model is optimized with reinforcement learning using a composite reward that jointly evaluates response format, answer correctness, and evidence grounding. During training, GRPO updates the policy by comparing multiple sampled responses, encouraging the model to generate faithful answers supported by localized video evidence.
+            Given a video and question, EG-Reasoner learns to produce structured responses that explicitly organize temporal evidence, intermediate reasoning, and the final answer. The model is optimized with reinforcement learning using a composite reward that jointly evaluates response format, answer correctness, and evidence grounding. During training, GRPO updates the policy by comparing multiple sampled responses, encouraging the model to generate faithful answers supported by localized video evidence.
           </p>
         </div>
       </div>
@@ -712,7 +713,7 @@
       <div class="container is-max-desktop">
         <h2 class="title is-3 benchmark-title">Qualitative Analysis</h2>
         <div class="benchmark-figure">
-          <img src="static/images/case.jpg" alt="Qualitative comparison between EG-Reasoner and the base model">
+          <img src="static/images/case.png" alt="Qualitative comparison between EG-Reasoner and the base model">
           <p class="figure-caption">
             As videos are analyzed, EG-Reasoner localizes key evidence regions and decomposes complex events into fine-grained temporal reasoning steps. Compared with the base model, it produces answers that are better grounded in the video content and less affected by loosely related context or hallucinated intermediate steps.
           </p>
